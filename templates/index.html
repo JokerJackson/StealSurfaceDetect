@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>慕尚钢材表面检测</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <nav class="navbar navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="#">
+                        <img src="{% static 'images/Joker-w.png' %}" alt="" width="50" height="45">
+                    </a>
+                </div>
+            </nav>
+            <a class="navbar-brand" href="#">钢材表面划痕检测</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">历史记录</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</div>
+<div>
+    {% if error_filenull_flog == 1 %}
+    <div class="alert alert-danger" role="alert">
+        上传图片文件不能为空
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    {% if error_sameName_flog == 1 %}
+    <div class="alert alert-danger" role="alert">
+        已有相同文件存在，若想继续检测请修改文件名
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+{% if detect_error_msg == 1 %}
+    <div class="alert alert-danger" role="alert">
+        已有相同文件存在，若想继续检测请修改文件名
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endif %}
+    <div class="alert alert-info" role="alert" style="margin: 7px">
+        <p style="float: left; font-size: 20px;margin-right: 100px;">登录用户:{{ user.username }}</p>
+        <p style="font-size: 20px;">最近一次登录时间: {{ leastTime }}</p>
+    </div>
+    <div class="card" style="width: 600px; margin:10px;">
+        <div class="card-body">
+            <h4>版本：慕尚钢材表面伤痕检测_v1_2</h4>
+        </div>
+    </div>
+    <div class="alert alert-secondary" role="alert" style="width: 500px; margin-left: 10px;">
+        <p>研发团队: Joker工作室</p>
+    </div>
+    <div style="min-width: 1500px; overflow: hidden;">
+        <div style="height: 400px; width: 400px; border: 2px #c8d6e5 solid; border-radius: 20px; margin-left: 50px; float: left;">
+            <img src="
+                    {% if uploadImg_flog == 0 %}{% static 'images/upload_default.jpg' %}{% else %}{{ MEDIA_URL }}{{ img_url }}{% endif %}"
+                 style="width: 320px; height: 320px; margin: 30px 0 0 30px;"
+                 alt="">
+        </div>
+        <div style="float: left; margin-left: 50px; margin-top: 150px;">
+            <form action="{% url "operations:detectImg" user.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <button class="btn btn-primary" type="submit" style="width: 500px;">检测</button>
+            </form>
+        </div>
+
+        <div style="height: 400px; width: 400px; border: 2px #c8d6e5 solid; border-radius: 20px; margin-right: 50px;float: right;">
+            <img src="
+                    {% if detectImg_flog == 0 %}{% static 'images/upload_default.jpg' %}{% else %}{{ MEDIA_URL }}{{ detectImg_url }}{% endif %}"
+                 style="width: 320px; height: 320px; margin: 30px 0 0 30px;"
+                 alt="">
+        </div>
+
+    </div>
+</div>
+<div>
+    <div style="margin-left: 65px; margin-top: 10px; margin-bottom: 10px;">
+        <div>
+            <form action="{% url "operations:uploadImg" user.id %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="img_file">
+                <button type="submit" class="btn btn-primary btn-sm"  id="liveToastBtn">上传</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+{% if detectImg_flog == 1 %}
+<div class="card">
+    <h5 class="card-header">检测结果</h5>
+    <div class="card-body">
+        <h5 class="card-title">共检测出{{ total }}个伤痕</h5>
+        {% for item in detect_text %}
+            <p class="card-text">{% for i in item %}{{ i }}{% endfor %}</p>
+        {% endfor %}
+        <a href="#" class="btn btn-primary">历史记录</a>
+    </div>
+</div>
+{% endif%}
+</body>
+</html>
