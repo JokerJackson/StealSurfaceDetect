@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900');
+body {
+    padding: 0;
+    margin: 0;
+    background-color: #00cec9;
+}
+/* login start */
+.login_box {
+    width: 300px;
+    padding: 40px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000000;
+    color: white;
+    border-radius: 20px;
+    text-align: center;
+}
+.input_box {
+    border: 0;
+    width: 200px;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #6c5ce7;
+    border-radius: 25px;
+    padding: 14px;
+    outline: none;
+    color: white;
+}
+.input_box:focus {
+    border: 0;
+    width: 300px;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #dfe6e9;
+    border-radius: 25px;
+    padding: 14px;
+    outline: none;
+    color: white;
+}
+.btn {
+    border: 0;
+    width: 100px;
+    background: none;
+    display: block;
+    margin: 20px auto;
+    text-align: center;
+    border: 2px solid #6c5ce7;
+    border-radius: 25px;
+    padding: 14px;
+    outline: none;
+    color: white;
+    cursor: pointer;
+}
+.btn:hover{
+    background: #81ecec;
+}
+/* login end */
